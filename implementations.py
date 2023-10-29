@@ -55,7 +55,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         w = w - (gamma * gradient)
         losses.append(compute_loss(y, tx, w))
         
-    return w, loss[-1]
+    return w, losses[-1]
 
 def compute_stoch_gradient(y, tx, w):
     """Compute a stochastic gradient at w from just few examples n and their corresponding y_n labels.
@@ -210,7 +210,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         w = w - gamma * gradient
         losses.append(compute_loss_log_reg(y, tx, w))
     
-    return w, loss
+    return w, losses[-1]
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """Computes Regularized Logistic Regression using Gradient Descent Algorithm.
@@ -234,4 +234,4 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         w = w - gamma * gradient
         losses.append(compute_loss_log_reg(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w)))
 
-    return w, loss
+    return w, losses[-1]
