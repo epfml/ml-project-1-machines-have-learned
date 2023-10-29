@@ -171,10 +171,10 @@ def compute_loss_log_reg(y, tx, w):
     assert y.shape[0] == tx.shape[0]
     assert tx.shape[1] == w.shape[0]
     
-    pred = sigmoid(tx.dot(w))
-    loss = y.T.dot(np.log(pred)) + (1 - y).T.dot(np.log(1 - pred))
-    
-    return np.squeeze(-loss).item() * (1 / y.shape[0])
+    sig_x_w = sigmoid(tx.dot(w))
+    N = y.shape[0]
+    loss =( -1/N) * (y.T.dot(np.log(sig_x_w)) + (1 - y).T.dot(np.log(1 - sig_x_w)))
+    return loss[0][0]
 
 def compute_gradient_log_reg(y, tx, w):
     """Computes the gradient of loss.
