@@ -48,14 +48,14 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         losses: loss value (scalar)
     """
     w = initial_w
-    loss = 0
-    
+    losses = []
+    losses.append(compute_loss_log_reg(y, tx, w))
     for n_iter in range(max_iters):
         gradient, e = compute_gradient(y, tx, w)
         w = w - (gamma * gradient)
-    loss = compute_loss(y, tx, w)
+        losses.append(compute_loss(y, tx, w))
         
-    return w, loss
+    return w, loss[-1]
 
 def compute_stoch_gradient(y, tx, w):
     """Compute a stochastic gradient at w from just few examples n and their corresponding y_n labels.
@@ -203,12 +203,12 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         losses: the loss value (scalar)
     """
     w = initial_w
-    loss = 0
-    
+    losses = []
+    losses.append(compute_loss_log_reg(y, tx, w))
     for n_iter in range(max_iters):
         gradient = compute_gradient_log_reg(y, tx, w)
         w = w - gamma * gradient
-    loss = compute_loss_log_reg(y, tx, w)
+        losses.append(compute_loss_log_reg(y, tx, w))
     
     return w, loss
 
@@ -227,10 +227,11 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """
         
     w = initial_w
-    loss = 0
+    losses = []
+    losses.append(compute_loss_log_reg(y, tx, w))
     for n_iter in range(max_iters):
         gradient = compute_gradient_log_reg(y, tx, w) + 2*lambda_*w
         w = w - gamma * gradient
-    loss = compute_loss_log_reg(y, tx, w) #+ lambda_ * np.squeeze(w.T.dot(w))
+        losses.append(compute_loss_log_reg(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w)))
 
     return w, loss
