@@ -33,7 +33,7 @@ This README provides an overview of the Machine Learning Project 1, its structur
 
 To test our project, follow these steps:
 
-1. Execute `python run.py` to generate the AIcrowd submission .csv file. Be patient, as it might take some time.
+1. Execute python run.py to generate the AIcrowd submission .csv file. Make sure to import the datasets with the path "data/dataset_to_release_2/" before running the script.
 
 2. Refer to the `best_model.ipynb` and `comparison.ipynb` notebooks for detailed insights and comparisons.
 
