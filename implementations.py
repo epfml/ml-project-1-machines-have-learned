@@ -52,14 +52,14 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         losses: loss value (scalar)
     """
     w = initial_w
-    loss = 0
-
+    losses = []
+    losses.append(compute_loss(y, tx, w))
     for n_iter in range(max_iters):
         gradient, e = compute_gradient(y, tx, w)
         w = w - (gamma * gradient)
-        loss = compute_loss(y, tx, w)
+        losses.append(compute_loss(y, tx, w))
 
-    return w, loss
+    return w, losses[-1]
 
 
 def compute_stoch_gradient(y, tx, w):
@@ -114,15 +114,15 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
         losses: the loss value (scalar)
     """
     w = initial_w
-    loss = 0
-
+    losses = []
+    losses.append(compute_loss(y, tx, w))
     for n_iter in range(max_iters):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=1):
             grad, e = compute_stoch_gradient(y_batch, tx_batch, w)
             w = w - gamma * grad
-            loss = compute_loss(y, tx, w)
+            losses.append(compute_loss(y, tx, w))
 
-    return w, loss
+    return w, losses[-1]
 
 
 def least_squares(y, tx):
@@ -216,14 +216,14 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         losses: the loss value (scalar)
     """
     w = initial_w
-    loss = 0
-
+    losses = []
+    losses.append(compute_loss_log_reg(y, tx, w))
     for n_iter in range(max_iters):
         gradient = compute_gradient_log_reg(y, tx, w)
         w = w - gamma * gradient
-        loss = compute_loss_log_reg(y, tx, w)
+        losses.append(compute_loss_log_reg(y, tx, w))
 
-    return w, loss
+    return w, losses[-1]
 
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
@@ -241,10 +241,11 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """
 
     w = initial_w
-    loss = 0
+    losses = []
+     losses.append(compute_loss_log_reg(y, tx, w))
     for n_iter in range(max_iters):
         gradient = compute_gradient_log_reg(y, tx, w) + 2 * lambda_ * w
         w = w - gamma * gradient
-        loss = compute_loss_log_reg(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
+        losses.append(compute_loss_log_reg(y, tx, w))
 
     return w, loss
